@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/public/css/job-form.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="job-form-card">
+                <div class="card-header">
+                    <h2 class="mb-0">Post a New Job</h2>
+                    <h5 class="mb-0">Fill in the details to create a job posting</h5>
+                </div>
+
+                <form id="jobForm" class="card-body" method="POST" action="/jobs">
+                    <!-- Job Title -->
+                    <div class="mb-4">
+                        <label for="title" class="form-label">Job Title *</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                        <div class="invalid-feedback">Please provide a job title.</div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label for="description" class="form-label">Job Description *</label>
+                        <textarea class="form-control" id="description" name="description" rows="5" required
+                                  placeholder="Describe the role, responsibilities, and requirements..."></textarea>
+                        <div class="invalid-feedback">Please provide a job description.</div>
+                    </div>
+
+                    <!-- Company -->
+                    <div class="mb-4">
+                        <label for="company_name" class="form-label">Company Name *</label>
+                        <input type="text" class="form-control" id="company_name" name="company_name"
+                               placeholder="e.g., Google, Microsoft" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="company_size" class="form-label">Company Size *</label>
+                        <select class="form-control" id="company_size" name="company_size" required>
+                            <option value="">Any Size</option>
+                            <option value="startup">Startup (1-50)</option>
+                            <option value="small">Small (51-200)</option>
+                            <option value="medium">Medium (201-1000)</option>
+                            <option value="large">Large (1000+)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="industry" class="form-label">Industry *</label>
+                        <select class="form-control" id="industry" name="industry" required>
+                            <option value="">All Industries</option>
+                            <option value="technology">Technology</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="finance">Finance</option>
+                            <option value="education">Education</option>
+                            <option value="retail">Retail</option>
+                            <option value="manufacturing">Manufacturing</option>
+                        </select>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="mb-4">
+                        <label for="location" class="form-label">Location *</label>
+                        <input type="text" class="form-control" id="location" name="location" required
+                               placeholder="e.g., New York, NY or Remote">
+                        <div class="invalid-feedback">Please provide a location.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="workType" class="form-label">Work Type *</label>
+                        <select class="form-control" id="workType" name="work_type" required>
+                            <option value="remote">Remote</option>
+                            <option value="hybrid">Hybrid</option>
+                            <option value="onsite">On-site</option>
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="experience" class="form-label">Experience Level</label>
+                        <select class="form-control" id="experience" name="experience">
+                            <option value="">All Levels</option>
+                            <option value="entry">Entry Level</option>
+                            <option value="mid">Mid Level</option>
+                            <option value="senior">Senior Level</option>
+                            <option value="executive">Executive</option>
+                        </select>
+                    </div>
+
+
+                    <!-- Salary -->
+                    <div class="mb-4">
+                        <label for="salary_min" class="form-label">Salary Minimum</label>
+                        <input type="number" class="form-control" id="salary_min" name="salary_min"
+                               placeholder="e.g., $60,000 per year" min="1">
+                    </div>
+
+                    <!-- Salary -->
+                    <div class="mb-4">
+                        <label for="salary_max" class="form-label">Salary Minimum</label>
+                        <input type="number" class="form-control" id="salary_max" name="salary_max"
+                               placeholder="e.g., $80,000 per year" min="1">
+                    </div>
+
+
+                    <!-- Skills -->
+                    <div class="mb-4">
+                        <label for="skillInput" class="form-label">Required Skills</label>
+                        <div class="skill-input-group">
+                            <input type="text" class="form-control" id="skillInput"
+                                   placeholder="Type a skill and press Enter">
+                            <button type="button" class="btn btn-outline-primary" id="addSkill">Add</button>
+                        </div>
+                        <div id="skillsContainer" class="skills-container mt-2"></div>
+                        <input type="hidden" id="skillsData" name="skills">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                            <span class="submit-text">Post Job</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Success!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Job posted successfully!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/js/job-form.js"></script>
+</body>
+</html>

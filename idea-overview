@@ -1,0 +1,29 @@
+Build a job search engine like "Indeed" or "LinkedIn Jobs" that allows users to search for jobs using full-text search,
+filters, autocomplete, and relevance ranking, powered by Elasticsearch and Node.js.
+
+Tech Stack:
+- Backend: Node.js (Express or Fastify)
+- Search Engine: Elasticsearch
+- Database: MongoDB
+- Frontend: React or simple HTML/CSS for testing (optional)
+
+Core Features:
+
+1- Job Post CRUD API (Node.js):
+    - Title, description, company, location, tags, salary range, job type, post date
+    - Save job data to DB and index to Elasticsearch
+
+2- Full-Text Search (Elasticsearch):
+    - Match job title, description, skills
+    - Use boosting, fuzziness, and relevance scoring
+
+3- Search Filters:
+    - Location, salary range, job type, post date, experience level
+
+4- Pagination & Sorting:
+    - Sort by relevance, date, or salary
+
+5- Analytics:
+    - Most searched terms
+    - Most applied job titles
+    - Use Elasticsearch aggregations

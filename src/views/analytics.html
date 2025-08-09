@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Market Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #skillsChart, #workTypeChart, #topJobsChart, #industriesChart, #experienceChart {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+    <link href="/public/css/job-form.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Job Market Analytics</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div id="skillsChart"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="workTypeChart"></div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div id="topJobsChart"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="industriesChart"></div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div id="experienceChart"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load("current", {packages: ["corechart"]});
+    google.charts.setOnLoadCallback(loadAnalytics);
+
+    async function loadAnalytics() {
+        try {
+            const res = await fetch("/job-analytics");
+            const data = await res.json();
+            console.log("Analytics data:", data);
+
+            drawChart("skillsChart", "Top Skills", data.top_skills?.buckets || []);
+            drawChart("workTypeChart", "Work Type Distribution", data.work_types?.buckets || []);
+            drawChart("topJobsChart", "Top Job Titles", data.top_jobs?.buckets || []);
+            drawChart("industriesChart", "Top Industries", data.industries?.buckets || []);
+            drawChart("experienceChart", "Experience Levels", data.experience_levels?.buckets || []);
+
+        } catch (err) {
+            console.error("Error loading analytics:", err);
+        }
+    }
+
+    function drawChart(elementId, title, buckets) {
+        if (!buckets.length) {
+            document.getElementById(elementId).innerHTML = `<p class="text-muted">No data available for ${title}</p>`;
+            return;
+        }
+
+        const chartData = new google.visualization.DataTable();
+        chartData.addColumn("string", "Name");
+        chartData.addColumn("number", "Count");
+
+        buckets.forEach(b => chartData.addRow([b.key, b.doc_count]));
+
+        const options = {
+            title,
+            legend: {position: "none"},
+            chartArea: {width: "70%", height: "70%"}
+        };
+
+        const chart = new google.visualization.ColumnChart(document.getElementById(elementId));
+        chart.draw(chartData, options);
+    }
+</script>
+</body>
+</html>

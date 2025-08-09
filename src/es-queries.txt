@@ -1,0 +1,88 @@
+---- Settings ----
+
+PUT job_search
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "synonym_filter": {
+          "type": "synonym",
+          "synonyms": [
+            "dev, developer, software engineer, programmer, coder",
+            "frontend, front-end, ui developer, ui engineer, client-side",
+            "backend, back-end, server-side, api developer",
+            "pm, project manager, product manager, program manager",
+            "js, javascript, java script, ecmascript, es6, es2015",
+            "ts, typescript, type script",
+            "fullstack, full-stack, full stack developer",
+            "qa, quality assurance, tester, test engineer, sdet",
+            "data scientist, data science, machine learning engineer, ml engineer, ai engineer",
+            "data engineer, etl developer, big data engineer",
+            "sysadmin, system administrator, systems engineer, it administrator",
+            "devops, site reliability engineer, sre, release engineer",
+            "ui, user interface, interface design",
+            "ux, user experience, user researcher",
+            "db, database developer, sql developer, database administrator, dba",
+            "mobile developer, ios developer, android developer, app developer",
+            "cloud engineer, cloud architect, aws engineer, azure engineer, gcp engineer",
+            "security engineer, infosec, cyber security engineer"
+          ]
+        }
+      },
+      "analyzer": {
+        "lowercase_synonym_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase", "synonym_filter"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text",
+        "analyzer": "lowercase_synonym_analyzer"
+      },
+      "description": {
+        "type": "text",
+        "analyzer": "lowercase_synonym_analyzer"
+      },
+      "location": {
+        "type": "keyword"
+      },
+      "company_name": {
+        "type": "keyword"
+      },
+      "work_type": {
+        "type": "keyword"
+      },
+      "industry": {
+        "type": "keyword"
+      },
+      "salary_min": {
+        "type": "float"
+      },
+      "salary_max": {
+        "type": "float"
+      },
+      "company_size": {
+        "type": "keyword"
+      },
+      "experience": {
+        "type": "keyword"
+      },
+      "skills": {
+        "type": "nested",
+        "properties": {
+          "name": {
+            "type": "text",
+            "analyzer": "lowercase_synonym_analyzer"
+          }
+        }
+      }
+    }
+  }
+}
+
+

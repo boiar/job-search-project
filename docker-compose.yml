@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.2
+    container_name: es-job-search.html
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - bootstrap.memory_lock=true
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - ES_JAVA_OPTS=-Xms2g -Xmx2g
+
+    ports:
+      - "9200:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - app_net
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.13.2
+    container_name: kibana-job-search.html
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - app_net
+
+  mongo:
+    image: mongo
+    container_name: mongo-job-search.html
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - app_net
+
+  node:
+    build: .
+    container_name: node-job-search.html
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    depends_on:
+      - elasticsearch
+      - mongo
+    command: bash -c "npm install && npm run dev"
+    networks:
+      - app_net
+volumes:
+  esdata:
+  mongodata:
+
+networks:
+  app_net:

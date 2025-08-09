@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Dream Job</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/public/css/job-form.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="job-form-card">
+                <div class="card-header">
+                    <h2 class="mb-0">Find Your Dream Job</h2>
+                    <h5 class="mb-0">Search and filter through thousands of opportunities</h5>
+                </div>
+
+                <form id="jobSearchForm" class="card-body" method="POST" action="/job-search">
+                    <!-- Job Title / Keywords -->
+                    <div class="mb-4">
+                        <label for="searchQuery" class="form-label">
+                            <i class="fas fa-search me-2"></i>Job Title or Keywords
+                        </label>
+                        <input type="text" class="form-control" id="searchQuery" name="searchQuery"
+                               placeholder="e.g., Software Engineer, Marketing Manager">
+                    </div>
+
+                    <!-- Location -->
+                    <div class="mb-4">
+                        <label for="location" class="form-label">
+                            <i class="fas fa-map-marker-alt me-2"></i>Location
+                        </label>
+                        <input type="text" class="form-control" id="location" name="location"
+                               placeholder="e.g., New York, NY or Remote">
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-3">
+                            <label for="work_type" class="form-label">Work Type</label>
+                            <select class="form-control" id="work_type" name="work_type">
+                                <option value="">All Types</option>
+                                <option value="remote">Remote</option>
+                                <option value="hybrid">Hybrid</option>
+                                <option value="onsite">On-site</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="experience" class="form-label">Experience Level</label>
+                            <select class="form-control" id="experience" name="experience">
+                                <option value="">All Levels</option>
+                                <option value="entry">Entry Level</option>
+                                <option value="mid">Mid Level</option>
+                                <option value="senior">Senior Level</option>
+                                <option value="executive">Executive</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="mb-4">
+                        <label for="skillInput" class="form-label">
+                            <i class="fas fa-code me-2"></i>Required Skills
+                        </label>
+                        <div class="skill-input-group">
+                            <input type="text" class="form-control" id="skillInput"
+                                   placeholder="Type a skill and press Enter">
+                            <button type="button" class="btn btn-outline-primary" id="addSkill">Add</button>
+                        </div>
+                        <div id="skillsContainer" class="skills-container mt-2"></div>
+                        <input type="hidden" id="skillsData" name="skills">
+                    </div>
+
+                    <!-- Company Size / Industry -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="company_size" class="form-label">Company Size</label>
+                            <select class="form-control" id="company_size" name="company_size">
+                                <option value="">Any Size</option>
+                                <option value="startup">Startup (1-50)</option>
+                                <option value="small">Small (51-200)</option>
+                                <option value="medium">Medium (201-1000)</option>
+                                <option value="large">Large (1000+)</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="industry" class="form-label">Industry</label>
+                            <select class="form-control" id="industry" name="industry">
+                                <option value="">All Industries</option>
+                                <option value="technology">Technology</option>
+                                <option value="healthcare">Healthcare</option>
+                                <option value="finance">Finance</option>
+                                <option value="education">Education</option>
+                                <option value="retail">Retail</option>
+                                <option value="manufacturing">Manufacturing</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="mb-4">
+                            <label for="salary_range" class="form-label">
+                                <i class="fas fa-dollar-sign me-2"></i>Salary Range
+                            </label>
+                            <input type="text" class="form-control" id="salary_range" name="salary_range" placeholder="e.g., 50000 - 90000">
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex gap-3">
+                        <button type="submit" class="btn btn-primary btn-lg flex-fill" id="searchBtn">
+                            <i class="fas fa-search me-2"></i>
+                            <span class="submit-text">Search Jobs</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-lg" id="clearBtn">
+                            <i class="fas fa-times me-2"></i>Clear Filters
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div class="mt-4" id="resultsSection" style="display: none;">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Search Results</h4>
+                        <span class="text-muted">Found <span id="resultsCount">0</span> jobs</span>
+                    </div>
+                    <div class="card-body" id="jobResults">
+                        <!-- Job results populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/js/job-search.js"></script>
+</body>
+</html>
