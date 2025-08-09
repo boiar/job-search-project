@@ -4,7 +4,7 @@ A Node.js + Express application that integrates **MongoDB** for storage and **El
 
 ---
 
-## 📌 Features
+## Features
 
 ### Job Management
 - Create, read, and search job postings.
@@ -29,26 +29,26 @@ A Node.js + Express application that integrates **MongoDB** for storage and **El
 
 ---
 
-## 📂 Project Structure
+## Project Structure
+```bash
+  src/
+  ├── controllers/
+  │ └── job.controller.ts # Job CRUD & search endpoints
+  ├── models/
+  │ └── job.model.ts # Job schema (MongoDB)
+  ├── routes/
+  │ └── job.routes.ts # API routes
+  ├── views/
+  │    └── analytics.html 
+  │    └── index.html
+  │    └── job-form.html
+  │    └── job-search.html
+  └── app.ts # App entry point
+  public/
+  │── css
+  └── js
 
-src/
-├── controllers/
-│ └── job.controller.ts # Job CRUD & search endpoints
-├── models/
-│ └── job.model.ts # Job schema (MongoDB)
-├── routes/
-│ └── job.routes.ts # API routes
-├── views/
-│    └── analytics.html 
-│    └── index.html
-│    └── job-form.html
-│    └── job-search.html
-└── app.ts # App entry point
-public/
-│── css
-└── js
-
-
+```
 ---
 
 ## Installation & Setup
@@ -82,8 +82,6 @@ npm install
 npm start
 ```
 - The application will now be running on http://localhost:3000. 
-
-
 
 ---
 
